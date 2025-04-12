@@ -1,54 +1,68 @@
-# # main.py
-# from fastapi import FastAPI
-# import pdfplumber
-
-# from fastapi import FastAPI
-# from dotenv import load_dotenv
-# import os
-
-# # Load environment variables
-# load_dotenv()  # Looks for .env in the same directory
-
-# app = FastAPI()
-
-# openai_key = os.getenv("OPENAI_API_KEY")  # Access the key
-
-# app = FastAPI()  # <-- This must be named `app`
-
-# @app.get("/extract-text")
-# async def extract_text():
-#     text = ""
-#     with pdfplumber.open("./vivekananda_resume.pdf") as pdf:
-#         for page in pdf.pages:
-#             text += page.extract_text()
-#     return {"text": openai_key, "extracted_text": text}
-
-from fastapi import FastAPI, UploadFile, File
-import pdfplumber
-import io
+from fastapi import FastAPI, UploadFile, File, Form, HTTPException
+from utils import (
+    pdf_utils,
+    embeddings,
+    similarity,
+    storage,
+    gpt_utils
+)
+from schemas.models import MatchResponse
+import json  # Missing import
+from typing import Dict, Any  # For type hints
 
 app = FastAPI()
 
-@app.get("/")
-def home():
-    return {"message": "Welcome to HIREGENIUS"}
-
-@app.post("/upload-resume/")
-async def upload_resume(file: UploadFile = File(...)):
-    content = await file.read()
-
-    # Use pdfplumber to extract text
-    text = ""
-    with pdfplumber.open(io.BytesIO(content)) as pdf:
-        for page in pdf.pages:
-            text += page.extract_text() or ""
-
-    # Optional: Print the text in console
-    print("📄 Extracted Resume Text:\n", text)
-
-    return {
-        "filename": file.filename,
-        "size": len(content),
-        "preview": text[:300]  # send only the first 300 chars as a preview
-    }
-
+@app.post("/upload-resume/", response_model=MatchResponse)
+async def upload_resume(
+    file: UploadFile = File(...),
+    job_description: str = Form(...)
+) -> Dict[str, Any]:
+    try:
+        # 1. Read and extract PDF
+        content = await file.read()
+        print("File read successfully")
+        
+        resume_text = pdf_utils.extract_text_from_pdf(content)  # Fixed: use pdf_utils
+        print("PDF extracted")
+        
+        # 2. Generate embeddings
+        resume_embedding = embeddings.embed_text(resume_text)  # Fixed: use embeddings
+        print("Resume embedded")
+        
+        jd_embedding = embeddings.embed_text(job_description)  # Fixed: use embeddings
+        print("JD embedded")
+        
+        # 3. Store in ChromaDB
+        storage.store_embeddings(  # Fixed: use storage
+            embedding=resume_embedding,
+            metadata={"id": file.filename}
+        )
+        print("Stored in ChromaDB")
+        
+        # 4. Calculate similarity
+        relevance_score = similarity.cosine_similarity(  # Fixed: use similarity
+            resume_embedding,
+            jd_embedding
+        )
+        print(f"Similarity calculated: {relevance_score}")
+        
+        # 5. Generate GPT summary
+        summary_dict = gpt_utils.generate_summary(  # Fixed: use gpt_utils
+            resume_text,
+            job_description
+        )
+        print("GPT summary generated")
+        
+        # 6. Return response
+        return {
+            "filename": file.filename,
+            "relevance_score": round(relevance_score, 2),
+            **summary_dict
+        }
+        
+    except Exception as e:
+        print(f"Error in upload_resume: {str(e)}")
+        raise HTTPException(
+            status_code=500,
+            detail=f"Error processing resume: {str(e)}"
+        )
