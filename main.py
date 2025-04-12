@@ -9,6 +9,7 @@ from utils import (
 from schemas.models import MatchResponse
 import json  # Missing import
 from typing import Dict, Any  # For type hints
+import traceback  # For error handling
 
 app = FastAPI()
 
@@ -45,12 +46,18 @@ async def upload_resume(
             jd_embedding
         )
         print(f"Similarity calculated: {relevance_score}")
-        
+        missing_skills = similarity.extract_missing_skills(resume_text, job_description)
+
         # 5. Generate GPT summary
         summary_dict = gpt_utils.generate_summary(  # Fixed: use gpt_utils
-            resume_text,
-            job_description
+         resume=resume_text,
+         job_description=job_description,
+         relevance_score=relevance_score,
+         missing_skills=missing_skills,
+         filename=file.filename
+
         )
+
         print("GPT summary generated")
         
         # 6. Return response
@@ -60,8 +67,10 @@ async def upload_resume(
             **summary_dict
         }
         
+ 
     except Exception as e:
-        print(f"Error in upload_resume: {str(e)}")
+        print("FULL TRACEBACK:")
+        traceback.print_exc()
         raise HTTPException(
             status_code=500,
             detail=f"Error processing resume: {str(e)}"
