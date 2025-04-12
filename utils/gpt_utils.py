@@ -1,6 +1,8 @@
 from openai import OpenAI
 import json
 from config import Config
+from utils.json_utils import safe_json_loads
+
 
 client = OpenAI(api_key=Config.OPENAI_API_KEY)
 
@@ -29,7 +31,8 @@ def generate_summary(resume: str, job_description: str) -> dict:
             temperature=0.7
         )
         
-        return json.loads(response.choices[0].message.content)
+        
+        return safe_json_loads(response.choices[0].message.content)
     except Exception as e:
         return {
             "match_summary": f"Error generating summary: {str(e)}",
