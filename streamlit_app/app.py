@@ -12,7 +12,7 @@ st.set_page_config(
 # ---------- Custom Banner ----------
 st.markdown("""
     <div style="text-align: center;">
-        <h1 style="color:#4CAF50;">HIREGENIUS</h1>
+        <h1 style="color:#4CAF50;">Genie</h1>
         <h4>🚀 AI-Powered Resume Matcher & Career Advisor</h4>
         <p style="color:gray;">Upload your resume and match it against a job description. Get a relevance score, feedback, interview questions, and growth tips instantly.</p>
     </div>
@@ -38,7 +38,7 @@ if submitted:
 
         st.markdown("### 📊 Relevance Score")
         st.progress(result["relevance_score"])
-        st.markdown(f"**Score:** `{result['relevance_score']}`")
+        st.markdown(f"**Score:** `{result['relevance_score']*100}`%")
 
         st.markdown("### ✨ Match Summary")
         st.info(result["match_summary"])
@@ -53,6 +53,7 @@ if submitted:
 
         st.markdown("### 🧠 AI-Generated Interview Questions")
         for i, q in enumerate(result["interview_questions"], 1):
-            st.write(f"**{i}.** {q}")
+            st.write(f"**{i}**.{q['question']}")
+            st.write(f"**Answer:** {q['answer']}")
     else:
         st.warning("⚠️ Please upload a PDF and enter a job description.")
