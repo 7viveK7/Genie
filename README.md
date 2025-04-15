@@ -1,83 +1,24 @@
-# Genie
-## Project Summary
+# 🚀 HIREGENIUS - AI-Powered Hiring Assistant
 
-Genie is a modern, high-performance API built using FastAPI. It is designed to provide seamless and efficient solutions for your application needs, leveraging Python's asynchronous capabilities for optimal performance.
+HIREGENIUS is a next-gen AI-powered virtual hiring consultant that transforms the hiring workflow by automating resume parsing, skill matching, candidate scoring, and career feedback generation using cutting-edge LLMs and vector databases.
 
-## Tech Stack
+## 🔍 Core Features
+- Upload resume (PDF) + job description
+- AI calculates **Relevance Score** using embeddings
+- GPT generates **Match Summary**
+- GPT provides **Career Suggestions**
+- Modular FastAPI backend, embeddable in any HR workflow
 
-- **Framework**: FastAPI
-- **Language**: Python
-- **Database**: PostgreSQL
-- **Authentication**: OAuth2
-- **Deployment**: Docker, Kubernetes
-- **Testing**: Pytest
+## 📦 Tech Stack
+- FastAPI, Python, LangChain, OpenAI, ChromaDB, pdfplumber
+- Streamlit (UI, coming Day 4)
+- Docker-ready, scalable, cloud-deployable
 
-## Setup Instructions
+## 🏁 Quick Start
 
-1. Clone the repository:
-    ```bash
-    git clone https://github.com/your-username/genie.git
-    cd genie
-    ```
-
-2. Create and activate a virtual environment:
-    ```bash
-    python3 -m venv venv
-    source venv/bin/activate
-    ```
-
-3. Install dependencies:
-    ```bash
-    pip install -r requirements.txt
-    ```
-
-4. Set up environment variables:
-    Create a `.env` file in the root directory and configure the required variables:
-    ```
-    DATABASE_URL=postgresql://user:password@localhost/dbname
-    SECRET_KEY=your_secret_key
-    ```
-
-5. Run database migrations:
-    ```bash
-    alembic upgrade head
-    ```
-
-6. Start the development server:
-    ```bash
-    uvicorn app.main:app --reload
-    ```
-
-## Example Request/Response
-
-### Example Request
-**Endpoint**: `POST /api/v1/items`
-
-**Request Body**:
-```json
-{
-  "name": "Sample Item",
-  "description": "This is a sample item.",
-  "price": 19.99
-}
-```
-
-### Example Response
-**Response Body**:
-```json
-{
-  "id": 1,
-  "name": "Sample Item",
-  "description": "This is a sample item.",
-  "price": 19.99,
-  "created_at": "2023-01-01T12:00:00Z"
-}
-```
-
-## Future Vision
-
-- **Enhanced Features**: Add support for real-time notifications and WebSocket integration.
-- **Scalability**: Implement horizontal scaling with Kubernetes.
-- **Improved Security**: Integrate advanced authentication mechanisms like JWT and API rate limiting.
-- **Extensibility**: Provide plugins for third-party integrations.
-- **Documentation**: Expand API documentation with Swagger and Redoc.
+```bash
+git clone https://github.com/7viveK7/Genie.git
+cd Genie
+cp .env.example .env  # Add your OpenAI key inside .env
+pip install -r requirements.txt
+bash run.sh

@@ -1,0 +1,11 @@
+fastapi
+uvicorn
+streamlit
+pypdf2
+pdfplumber
+openai
+langchain==0.0.310
+
+chromadb
+python-dotenv
+tiktoken

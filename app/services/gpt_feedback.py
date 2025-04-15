@@ -1,6 +1,6 @@
 from openai import OpenAI
-from config import Config
-from utils.json_utils import safe_json_loads
+from app.config.settings import Config
+from app.utils.json_utils import safe_json_loads
 
 client = OpenAI(api_key=Config.OPENAI_API_KEY)
 
