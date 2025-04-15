@@ -4,8 +4,11 @@ streamlit
 pypdf2
 pdfplumber
 openai
-langchain==0.0.310
+langchain
 
 chromadb
 python-dotenv
 tiktoken
+streamlit
+requests
+python-multipart
