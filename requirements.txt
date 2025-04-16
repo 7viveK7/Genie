@@ -5,6 +5,8 @@ pypdf2
 pdfplumber
 openai
 langchain
+langchain-community>=0.0.13
+openai==0.28.0
 
 chromadb
 python-dotenv
