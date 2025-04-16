@@ -1,4 +1,4 @@
-from langchain_openai import OpenAIEmbeddings
+from langchain_community.embeddings import OpenAIEmbeddings
 from app.config.settings import Config
 
 def get_embedder():
