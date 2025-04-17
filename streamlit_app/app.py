@@ -12,16 +12,29 @@ st.set_page_config(
 # ---------- Hide Default Streamlit Header/Footer ----------
 st.markdown("""
     <style>
-        header.stAppHeader {display: none;}
-        footer {visibility: hidden;}
-        .stDecoration {display: none;}
-        .stAppToolbar {display: none !important;}
-        .stToolbarActions {display: none !important;}
-        #MainMenu {visibility: hidden;}
-        footer {visibility: hidden;}
-        header {visibility: hidden;}
+        /* Hide default Streamlit header and footer */
+        header.stAppHeader, header, footer, #MainMenu {
+            display: none !important;
+            visibility: hidden;
+        }
+
+        /* Hide Streamlit decoration and toolbar */
+        .stDecoration,
+        .stAppToolbar,
+        .stToolbarActions,
+        .stToolbarActionButton,
+        [data-testid="stToolbarActionButton"] {
+            display: none !important;
+        }
+
+        /* Attempt to hide 'Manage app' button if within scope */
+        button[data-testid="manage-app-button"],
+        ._terminalButton_rix23_138 {
+            display: none !important;
+        }
     </style>
 """, unsafe_allow_html=True)
+
 
 # ---------- Custom Banner ----------
 st.markdown("""
