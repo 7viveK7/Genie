@@ -10,20 +10,24 @@ st.set_page_config(
 )
 
 # ---------- Hide Default Streamlit Header/Footer ----------
-hide_streamlit_style = """
+st.markdown("""
     <style>
+        header.stAppHeader {display: none;}
+        footer {visibility: hidden;}
+        .stDecoration {display: none;}
+        .stAppToolbar {display: none !important;}
+        .stToolbarActions {display: none !important;}
         #MainMenu {visibility: hidden;}
         footer {visibility: hidden;}
         header {visibility: hidden;}
     </style>
-"""
-st.markdown(hide_streamlit_style, unsafe_allow_html=True)
+""", unsafe_allow_html=True)
 
 # ---------- Custom Banner ----------
 st.markdown("""
     <div style="text-align: center;">
         <h1 style="color:#4CAF50;">Genie</h1>
-        <h4>🚀 AI-Powered Resume Matcher & Career Advisor</h4>
+        <h4>AI-Powered Resume Matcher & Career Advisor</h4>
         <p style="color:gray;">Upload your resume and match it against a job description. 
         Get a relevance score, feedback, interview questions, and growth tips instantly.</p>
     </div>
