@@ -3,10 +3,11 @@ uvicorn
 streamlit
 pypdf2
 pdfplumber
-openai
+openai>=1.0.0
+
 langchain
 langchain-community>=0.0.13
-openai==0.28.0
+
 
 chromadb
 python-dotenv
