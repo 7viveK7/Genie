@@ -12,24 +12,26 @@ st.set_page_config(
 # ---------- Hide Default Streamlit Header/Footer ----------
 st.markdown("""
     <style>
-        /* Hide default Streamlit header and footer */
-        header.stAppHeader, header, footer, #MainMenu {
+        /* General Streamlit UI cleanup */
+        header, footer, #MainMenu {
             display: none !important;
-            visibility: hidden;
+            visibility: hidden !important;
         }
 
-        /* Hide Streamlit decoration and toolbar */
-        .stDecoration,
+        header.stAppHeader,
         .stAppToolbar,
         .stToolbarActions,
         .stToolbarActionButton,
+        .stDecoration,
         [data-testid="stToolbarActionButton"] {
             display: none !important;
         }
 
-        /* Attempt to hide 'Manage app' button if within scope */
+        /* Try hiding the 'Manage app' button */
         button[data-testid="manage-app-button"],
-        ._terminalButton_rix23_138 {
+        ._terminalButton_rix23_138,
+        .st-emotion-cache-1dp5vir,   /* Toolbar shadow */
+        .st-emotion-cache-h4xjwg {   /* Header wrapper */
             display: none !important;
         }
     </style>
