@@ -9,20 +9,42 @@ st.set_page_config(
     layout="centered"
 )
 
-# ---------- Hide Streamlit Header and "Manage app" ----------
+# ---------- Hide Default Streamlit Header/Footer ----------
 st.markdown("""
     <style>
-        #MainMenu {visibility: hidden;}  /* Hide the default Streamlit menu */
-        #Footer {visibility: hidden;}    /* Hide the Streamlit footer */
+        /* General Streamlit UI cleanup */
+        header, footer, #MainMenu {
+            display: none !important;
+            visibility: hidden !important;
+        }
+
+        header.stAppHeader,
+        .stAppToolbar,
+        .stToolbarActions,
+        .stToolbarActionButton,
+        .stDecoration,
+        [data-testid="stToolbarActionButton"] {
+            display: none !important;
+        }
+
+        /* Try hiding the 'Manage app' button */
+        button[data-testid="manage-app-button"],
+        ._terminalButton_rix23_138,
+        .st-emotion-cache-1dp5vir,   /* Toolbar shadow */
+        .st-emotion-cache-h4xjwg {   /* Header wrapper */
+            display: none !important;
+        }
     </style>
 """, unsafe_allow_html=True)
+
 
 # ---------- Custom Banner ----------
 st.markdown("""
     <div style="text-align: center;">
         <h1 style="color:#4CAF50;">Genie</h1>
-        <h4>🚀 AI-Powered Resume Matcher & Career Advisor</h4>
-        <p style="color:gray;">Upload your resume and match it against a job description. Get a relevance score, feedback, interview questions, and growth tips instantly.</p>
+        <h4>AI-Powered Resume Matcher & Career Advisor</h4>
+        <p style="color:gray;">Upload your resume and match it against a job description. 
+        Get a relevance score, feedback, interview questions, and growth tips instantly.</p>
     </div>
 """, unsafe_allow_html=True)
 
@@ -41,12 +63,11 @@ if submitted:
         with st.spinner("🚧 Analyzing resume using AI..."):
             result = call_hiregenius_api("temp_resume.pdf", job_description)
 
-        # ---------- Display Output ----------
         st.success("✅ Analysis Complete")
 
         st.markdown("### 📊 Relevance Score")
         st.progress(result["relevance_score"])
-        st.markdown(f"**Score:** `{result['relevance_score']*100}`%")
+        st.markdown(f"**Score:** `{result['relevance_score'] * 100}`%")
 
         st.markdown("### ✨ Match Summary")
         st.info(result["match_summary"])
@@ -61,7 +82,16 @@ if submitted:
 
         st.markdown("### 🧠 AI-Generated Interview Questions")
         for i, q in enumerate(result["interview_questions"], 1):
-            st.write(f"**{i}**.{q['question']}")
+            st.write(f"**{i}. {q['question']}**")
             st.write(f"**Answer:** {q['answer']}")
+
     else:
         st.warning("⚠️ Please upload a PDF and enter a job description.")
+
+# ---------- Custom Footer ----------
+st.markdown("""
+    <hr style="margin-top: 3rem;">
+    <div style="text-align: center; font-size: 0.9rem; color: gray;">
+        Made with ❤️ by <b>Vivekananda Malladi</b> • Powered by <a href="https://openai.com" target="_blank">OpenAI</a>
+    </div>
+""", unsafe_allow_html=True)
