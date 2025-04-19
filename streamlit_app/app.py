@@ -9,6 +9,14 @@ st.set_page_config(
     layout="centered"
 )
 
+# ---------- Hide Streamlit Header and "Manage app" ----------
+st.markdown("""
+    <style>
+        #MainMenu {visibility: hidden;}  /* Hide the default Streamlit menu */
+        #Footer {visibility: hidden;}    /* Hide the Streamlit footer */
+    </style>
+""", unsafe_allow_html=True)
+
 # ---------- Custom Banner ----------
 st.markdown("""
     <div style="text-align: center;">
