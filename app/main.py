@@ -7,7 +7,7 @@ app = FastAPI()
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
-        "http://192.168.1.11:3004",       
+        " http://172.20.10.2:3004",       
         "https://genie-1-vqcr.onrender.com/",  
     ],
     allow_credentials=True,
